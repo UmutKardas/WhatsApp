@@ -11,6 +11,7 @@ struct ChatsUIView: View {
     var body: some View {
         VStack {
             ChatsHeaderView()
+            ChatsTitleBarView()
 
             Spacer()
         }
