@@ -8,23 +8,26 @@
 import SwiftUI
 
 struct MainTabBarView: View {
-    @State private var selectedTab = 0
+    @State private var selectedTab = 3
 
     var body: some View {
         ZStack {
+            Color.colorMain
+                .ignoresSafeArea(.all)
+
             VStack {
                 Spacer()
 
                 ZStack {
                     switch selectedTab {
                     case 0:
-                        ChatsUIView()
-                    case 1:
                         UpdatesUIView()
+                    case 1:
+                        CallsUIView()
                     case 2:
                         CommunityUIView()
                     case 3:
-                        CallsUIView()
+                        ChatsUIView()
                     case 4:
                         SettingsUIView()
                     default:
@@ -35,46 +38,22 @@ struct MainTabBarView: View {
                 Spacer()
 
                 HStack {
-                    TabBarIcon(iconName: "bubble.left.and.bubble.right.fill", title: "Chats", tabIndex: 0, selectedTab: $selectedTab)
+                    TabBarIcon(iconName: "icon-status", fillIconName: "icon-status-fill", title: "Updates", tabIndex: 0, selectedTab: $selectedTab)
                     Spacer()
-                    TabBarIcon(iconName: "message.badge", title: "Updates", tabIndex: 1, selectedTab:
+                    TabBarIcon(iconName: "icon-calls", fillIconName: "icon-calls-fill", title: "Calls", tabIndex: 1, selectedTab:
                         $selectedTab)
                     Spacer()
-                    TabBarIcon(iconName: "person.3", title: "Community", tabIndex: 2, selectedTab: $selectedTab)
+                    TabBarIcon(iconName: "icon-communities", fillIconName: "icon-communities-fill", title: "Communities", tabIndex: 2, selectedTab: $selectedTab)
                     Spacer()
-                    TabBarIcon(iconName: "phone", title: "Calls", tabIndex: 3, selectedTab:
+                    TabBarIcon(iconName: "icon-chats", fillIconName: "icon-chats-fill", title: "Chats", tabIndex: 3, selectedTab:
                         $selectedTab)
                     Spacer()
-                    TabBarIcon(iconName: "gear", title: "Settings", tabIndex: 4, selectedTab:
+                    TabBarIcon(iconName: "icon-settings", fillIconName: "icon-settings-fill", title: "Settings", tabIndex: 4, selectedTab:
                         $selectedTab)
                 }
                 .padding()
-                .background(Color.black.opacity(0.8))
+                .background(Color("color-tabbar"))
             }
-        }
-    }
-}
-
-struct TabBarIcon: View {
-    let iconName: String
-    let title: String
-    let tabIndex: Int
-    @Binding var selectedTab: Int
-
-    var body: some View {
-        VStack {
-            Image(systemName: iconName)
-                .renderingMode(.template)
-                .foregroundColor(selectedTab == tabIndex ? .white : .gray)
-                .font(.title)
-            
-            Text("\(title)")
-                .font(.subheadline)
-                .fontWeight(.medium)
-                .foregroundColor(selectedTab == tabIndex ? .white : .gray)
-        }
-        .onTapGesture {
-            selectedTab = tabIndex
         }
     }
 }
