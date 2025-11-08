@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "ico-32-chats-fill.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
