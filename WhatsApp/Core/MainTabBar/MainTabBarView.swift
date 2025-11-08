@@ -34,6 +34,7 @@ struct MainTabBarView: View {
                         ChatsUIView()
                     }
                 }
+                .padding(.horizontal)
 
                 Spacer()
 

@@ -9,6 +9,14 @@ import SwiftUI
 
 struct ChatsUIView: View {
     var body: some View {
-        Text("Chats")
+        VStack {
+            ChatsHeaderView()
+
+            Spacer()
+        }
     }
+}
+
+#Preview {
+    ChatsUIView()
 }
