@@ -16,6 +16,8 @@ struct ChatsTitleBarView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
 
             ChatsSearchBarView()
+            
+            
         }
     }
 }
