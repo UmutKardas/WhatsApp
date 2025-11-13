@@ -19,16 +19,18 @@ struct CircleIconButton: View {
     }
 
     var body: some View {
-        ZStack {
-            Circle()
-                .foregroundStyle(Color(backgroundColor))
-                .frame(width: 40, height: 40)
+        Button {} label: {
+            ZStack {
+                Circle()
+                    .foregroundStyle(Color(backgroundColor))
+                    .frame(width: 40, height: 40)
 
-            Image(imageName)
-                .renderingMode(.template)
-                .resizable()
-                .foregroundStyle(foregroundColor ?? .primary)
-                .frame(width: 30, height: 30)
+                Image(imageName)
+                    .renderingMode(.template)
+                    .resizable()
+                    .foregroundStyle(foregroundColor ?? .colorPrimary)
+                    .frame(width: 30, height: 30)
+            }
         }
     }
 }

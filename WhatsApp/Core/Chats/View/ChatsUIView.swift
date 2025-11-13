@@ -8,13 +8,15 @@
 import SwiftUI
 
 struct ChatsUIView: View {
+    @StateObject var viewModel: ChatsViewModel = .init(selectedCategory: .All)
+
     var body: some View {
         VStack {
             ChatsHeaderView()
             ChatsTitleBarView()
-
-            Spacer()
+            ChatsListView()
         }
+        .environmentObject(viewModel)
     }
 }
 

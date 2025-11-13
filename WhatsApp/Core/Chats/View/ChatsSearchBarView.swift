@@ -9,32 +9,20 @@ import SwiftUI
 
 struct ChatsSearchBarView: View {
     var body: some View {
-        GeometryReader { proxy in
-            let width = proxy.size.width
+        HStack(spacing: 12) {
+            Image(systemName: "magnifyingglass")
+                .font(.system(size: 20))
+                .foregroundColor(Color("color-tabbar-text"))
 
-            ZStack(alignment: .leading) {
-                Color("color-button-background")
-
-                HStack {
-                    Image(systemName: "magnifyingglass")
-                        .resizable()
-                        .foregroundStyle(Color("color-tabbar-text"))
-                        .frame(width: 24, height: 24)
-
-                    TextField(
-                        "",
-                        text: .constant(""),
-                        prompt: Text("Search")
-                            .foregroundColor(Color("color-tabbar-text"))
-                            .font(.title2)
-                    )
-                    .foregroundColor(Color("color-tabbar-text"))
-                    .font(.title2)
-                }
-                .padding(.horizontal, width * 0.08)
-            }
-            .clipShape(RoundedRectangle(cornerRadius: 20))
-            .frame(height: width * 0.12)
+            TextField("Search", text: .constant(""))
+                .foregroundColor(Color("color-tabbar-text"))
+                .font(.system(size: 18))
         }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 10)
+        .background(Color("color-button-background"))
+        .clipShape(RoundedRectangle(cornerRadius: 20))
+        .frame(maxWidth: .infinity)
+        .fixedSize(horizontal: false, vertical: true)
     }
 }
