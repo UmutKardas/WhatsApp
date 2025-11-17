@@ -21,15 +21,15 @@ struct MainTabBarView: View {
                 ZStack {
                     switch selectedTab {
                     case 0:
-                        UpdatesUIView()
+                        EmptyView()
                     case 1:
-                        CallsUIView()
+                        EmptyView()
                     case 2:
-                        CommunityUIView()
+                        EmptyView()
                     case 3:
                         ChatsUIView()
                     case 4:
-                        SettingsUIView()
+                        EmptyView()
                     default:
                         ChatsUIView()
                     }
