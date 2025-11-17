@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MainTabBarView: View {
     @State private var selectedTab = 3
+    @StateObject private var viewModel: MainTabBarViewModel = .init()
 
     var body: some View {
         ZStack {
