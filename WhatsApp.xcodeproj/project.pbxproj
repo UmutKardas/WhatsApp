@@ -16,7 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		8A7DEC312EB945C4000F9E24 /* WhatsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = WhatsApp.app; path = "/Users/huseyinumutkardas/Documents/Projects/WhatsApp/build/Debug-iphoneos/WhatsApp.app"; sourceTree = "<absolute>"; };
+		8A12F8112ECD10C70085E4B8 /* WhatsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WhatsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -48,6 +48,7 @@
 			isa = PBXGroup;
 			children = (
 				8A7DEC332EB945C4000F9E24 /* WhatsApp */,
+				8A12F8112ECD10C70085E4B8 /* WhatsApp.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -79,7 +80,7 @@
 				8A60D42D2ECBC39500CE0606 /* FirebaseFirestoreCombine-Community */,
 			);
 			productName = WhatsApp;
-			productReference = 8A7DEC312EB945C4000F9E24 /* WhatsApp.app */;
+			productReference = 8A12F8112ECD10C70085E4B8 /* WhatsApp.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */

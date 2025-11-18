@@ -27,6 +27,14 @@ final class AppContainer {
         return databaseService
     }
 
+    var messageService: MessageServiceProtocol {
+        guard let messageService = container.resolve(MessageServiceProtocol.self) else {
+            fatalError("MessageService could not be resolved")
+        }
+
+        return messageService
+    }
+
     private init() {
         registerDependency()
     }
@@ -34,5 +42,8 @@ final class AppContainer {
     private func registerDependency() {
         container.register(AuthServiceProtocol.self) { _ in AuthService() }
         container.register(DatabaseServiceProtocol.self) { _ in DatabaseService() }
+        container.register(MessageServiceProtocol.self) { _ in
+            MessageService()
+        }
     }
 }

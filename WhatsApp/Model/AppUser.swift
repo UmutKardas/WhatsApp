@@ -8,9 +8,11 @@
 struct AppUser: Encodable {
     var id: String
     var username: String
+    var friendIds: [String]?
 
     init(id: String, username: String) {
         self.id = id
         self.username = username
+        self.friendIds = []
     }
 }
