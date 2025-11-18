@@ -10,7 +10,7 @@ import FirebaseFirestore
 import FirebaseFirestoreCombineSwift
 
 final class MessageService: MessageServiceProtocol {
-    var databaseService: DatabaseServiceProtocol
+    private var databaseService: DatabaseServiceProtocol
     private let database: Firestore = .firestore()
 
     init(databaseService: DatabaseServiceProtocol = AppContainer.shared.databaseService) {
@@ -29,7 +29,7 @@ final class MessageService: MessageServiceProtocol {
             .eraseToAnyPublisher()
     }
 
-    func observeMessage(between firstId: String, and secondId: String) -> AnyPublisher<[Message], Error> {
+    func observeMessages(between firstId: String, and secondId: String) -> AnyPublisher<[Message], Error> {
         let chatId = getDocumentId(firstId: firstId, secondId: secondId)
         let query = database
             .collection(DatabasePath.messages.rawValue)
