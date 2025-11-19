@@ -13,8 +13,10 @@ struct ChatsListView: View {
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack(spacing: 20) {
-                ForEach(0 ..< 10, id: \.self) { _ in
-                    ChatsSegmentView()
+                ForEach(viewModel.chats) { chat in
+                    if let user = viewModel.chatSessions[chat.id] {
+                        ChatsSegmentView(chatSession: (chat, user))
+                    }
                 }
 
                 Spacer()

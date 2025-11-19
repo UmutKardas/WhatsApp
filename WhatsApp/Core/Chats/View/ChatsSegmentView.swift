@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ChatsSegmentView: View {
+    var chatSession: (Chat, AppUser)
+
     var body: some View {
         Button {} label: {
             VStack {
@@ -21,11 +23,11 @@ struct ChatsSegmentView: View {
                         .foregroundStyle(.colorPrimary)
 
                     VStack(alignment: .leading) {
-                        Text("Hüseyin Umut Kardaş")
+                        Text("\(chatSession.1.username)")
                             .font(.headline)
                             .foregroundStyle(.colorPrimary)
 
-                        Text("Thanks Bro!")
+                        Text("\(chatSession.0.lastChatMessage?.message ?? "")")
                             .font(.headline)
                             .fontWeight(.regular)
                             .foregroundStyle(.colorSecondary)
@@ -33,7 +35,7 @@ struct ChatsSegmentView: View {
 
                     Spacer()
 
-                    Text("08:01")
+                    Text("\(chatSession.0.lastChatMessage?.timestamp.toHourMinute() ?? "00:00")")
                         .foregroundStyle(.colorSecondary)
                         .font(.headline)
                         .fontWeight(.regular)

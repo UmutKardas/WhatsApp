@@ -7,9 +7,10 @@
 
 import Foundation
 
-struct Chat: Codable {
+struct Chat: Identifiable, Codable {
     var id: String
     var userIds: [String]
+    var lastChatMessage: Message?
 
     init(userIds: [String]) {
         self.id = UUID().uuidString
@@ -17,6 +18,6 @@ struct Chat: Codable {
     }
 
     enum CodingKeys: String, CodingKey {
-        case id, userIds
+        case id, userIds, lastChatMessage
     }
 }
