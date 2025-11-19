@@ -10,6 +10,8 @@ import FirebaseAuth
 import FirebaseFirestore
 
 final class MainTabBarViewModel: ObservableObject {
+    @Published var chats: [Chat] = []
+
     private var authService: AuthServiceProtocol
     private var databaseService: DatabaseServiceProtocol
     private var cancellables: Set<AnyCancellable> = .init()

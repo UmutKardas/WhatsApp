@@ -15,4 +15,8 @@ struct Chat: Codable {
         self.id = UUID().uuidString
         self.userIds = userIds
     }
+
+    enum CodingKeys: String, CodingKey {
+        case id, userIds
+    }
 }

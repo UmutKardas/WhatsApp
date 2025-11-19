@@ -8,4 +8,5 @@
 enum DatabasePath: String {
     case users
     case messages
+    case chat
 }

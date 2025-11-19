@@ -5,7 +5,7 @@
 //  Created by Hüseyin Umut Kardaş on 18.11.2025.
 //
 
-struct AppUser: Encodable {
+struct AppUser: Codable {
     var id: String
     var username: String
     var friendIds: [String]?

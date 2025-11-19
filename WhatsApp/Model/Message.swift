@@ -21,4 +21,8 @@ struct Message: Codable {
         self.message = message
         self.messageStatus = messageStatus
     }
+
+    enum CodingKeys: String, CodingKey {
+        case id, senderID, timestamp, message, messageStatus
+    }
 }
