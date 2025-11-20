@@ -22,9 +22,11 @@ struct MessagesBottomView: View {
             Image("icon-mic")
         }
         .frame(maxWidth: .infinity, alignment: .bottom)
-        .frame(height: 80)
-        .background(Color.colorPanel)
-        .safeAreaPadding(.bottom)
         .padding(.horizontal)
+        .frame(height: 100)
+        .background(Color.colorPanel
+            .background(.ultraThinMaterial)
+        )
+        .safeAreaPadding(.bottom)
     }
 }

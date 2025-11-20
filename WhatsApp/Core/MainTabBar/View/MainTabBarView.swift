@@ -56,6 +56,13 @@ struct MainTabBarView: View {
                     }
                     .padding()
                     .background(Color("color-tabbar"))
+                    .overlay(
+                        Rectangle()
+                            .frame(height: 0.5)
+                            .foregroundColor(Color.black.opacity(0.30))
+                            .frame(maxHeight: .infinity, alignment: .top)
+                    )
+                    .frame(height: 65)
                 }
             }
         }
