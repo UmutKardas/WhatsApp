@@ -7,14 +7,14 @@
 
 import Foundation
 
-struct Message: Codable {
+struct Message: Codable, Identifiable {
     var id: String
     var senderID: String
-    var timestamp: Int
+    var timestamp: Double
     var message: String
     var messageStatus: MessageStatus?
 
-    init(senderID: String, timestamp: Int, message: String, messageStatus: MessageStatus? = nil) {
+    init(senderID: String, timestamp: Double, message: String, messageStatus: MessageStatus? = nil) {
         self.id = UUID().uuidString
         self.senderID = senderID
         self.timestamp = timestamp

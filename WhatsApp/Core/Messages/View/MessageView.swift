@@ -8,23 +8,23 @@
 import SwiftUI
 
 struct MessageView: View {
-    let text: String
+    let message: Message
     let isMe: Bool
 
     var body: some View {
         HStack {
             if isMe { Spacer() }
             HStack {
-                Text(text)
+                Text(message.message)
 
-                Text("16:54")
+                Text(message.timestamp.toHourMinute())
                     .foregroundStyle(.colorSecondary)
                     .font(.footnote)
                     .fontWeight(.regular)
                     .padding(.top)
-                
+
                 if isMe {
-                    Image("icon-message-status-disable")
+                    Image("icon-message-status-active")
                         .padding(.top)
                 }
             }
@@ -39,12 +39,4 @@ struct MessageView: View {
         }
         .padding(.vertical, 2)
     }
-}
-
-#Preview {
-    VStack(spacing: 12) {
-        MessageView(text: "Hello There!", isMe: true)
-        MessageView(text: "Hi! What's up?", isMe: false)
-    }
-    .padding()
 }

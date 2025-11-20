@@ -19,7 +19,7 @@ final class MessageService: MessageServiceProtocol {
 
     func createMessage(firstId: String, secondId: String) -> AnyPublisher<Bool, Error> {
         let chatId = getDocumentId(firstId: firstId, secondId: secondId)
-        let chat = Chat(userIds: [firstId, secondId])
+        let chat = Chat(id: chatId, userIds: [firstId, secondId])
         return databaseService.add(path: .chat, documentId: chatId, data: chat)
     }
 
@@ -27,7 +27,7 @@ final class MessageService: MessageServiceProtocol {
         let chatId = getDocumentId(firstId: senderId, secondId: receiverId)
 
         func continuePipeline() -> AnyPublisher<Bool, Error> {
-            let timestamp = Int(Date().timeIntervalSince1970)
+            let timestamp: TimeInterval = Date().timeIntervalSince1970
             let message = Message(senderID: senderId, timestamp: timestamp, message: message)
 
             let docReference = database
@@ -38,7 +38,11 @@ final class MessageService: MessageServiceProtocol {
 
             return docReference
                 .setData(from: message)
-                .map { _ in true }
+                .map { _ in message }
+                .flatMap { message in
+                    var updateFields: [String: Any] = [Chat.CodingKeys.lastChatMessageId.rawValue: message.id]
+                    return self.updateChat(chatId: chatId, updateFields: updateFields)
+                }
                 .mapError { $0 }
                 .eraseToAnyPublisher()
         }
@@ -55,6 +59,22 @@ final class MessageService: MessageServiceProtocol {
                 }
             }
             .eraseToAnyPublisher()
+    }
+
+    func updateChat(chatId: String, updateFields: [String: Any]) -> AnyPublisher<Bool, Error> {
+        Future { promise in
+            self.database
+                .collection(DatabasePath.chat.rawValue)
+                .document(chatId)
+                .updateData(updateFields) { error in
+                    if let error {
+                        promise(.failure(error))
+                    } else {
+                        promise(.success(true))
+                    }
+                }
+        }
+        .eraseToAnyPublisher()
     }
 
     func getChats(userId: String, friendIds: [String]) -> AnyPublisher<[Chat], Error> {
@@ -77,6 +97,42 @@ final class MessageService: MessageServiceProtocol {
             .collect()
             .map { chats in
                 chats.compactMap { $0 }
+            }
+            .eraseToAnyPublisher()
+    }
+
+    func getChat(userId: String, friendId: String) -> AnyPublisher<Chat?, Error> {
+        let chatId = getDocumentId(firstId: userId, secondId: friendId)
+        let query = database
+            .collection(DatabasePath.chat.rawValue)
+            .document(chatId)
+
+        return query
+            .getDocument()
+            .tryMap { snapshot in
+                guard snapshot.exists else {
+                    return nil
+                }
+
+                return try snapshot.data(as: Chat.self)
+            }
+            .eraseToAnyPublisher()
+    }
+
+    func getMessage(chatId: String, messageId: String) -> AnyPublisher<Message?, Error> {
+        let docRef = database
+            .collection(DatabasePath.chat.rawValue)
+            .document(chatId)
+            .collection(DatabasePath.messages.rawValue)
+            .document(messageId)
+
+        return docRef
+            .getDocument()
+            .tryMap { snapshot in
+                guard snapshot.exists else {
+                    return nil
+                }
+                return try snapshot.data(as: Message.self)
             }
             .eraseToAnyPublisher()
     }

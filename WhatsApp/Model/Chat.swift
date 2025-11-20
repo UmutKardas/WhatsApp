@@ -10,14 +10,15 @@ import Foundation
 struct Chat: Identifiable, Codable {
     var id: String
     var userIds: [String]
-    var lastChatMessage: Message?
+    var lastChatMessageId: String
 
-    init(userIds: [String]) {
-        self.id = UUID().uuidString
+    init(id: String, userIds: [String]) {
+        self.id = id
         self.userIds = userIds
+        self.lastChatMessageId = ""
     }
 
     enum CodingKeys: String, CodingKey {
-        case id, userIds, lastChatMessage
+        case id, userIds, lastChatMessageId
     }
 }

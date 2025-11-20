@@ -12,9 +12,9 @@ import Foundation
 
 final class ChatsViewModel: ObservableObject {
     @Published var user: AppUser?
-    @Published var chatSessions: [String: AppUser] = [:]
-    @Published var chats: [Chat] = []
-
+    @Published var chatSessions: [String: Chat?] = [:]
+    @Published var usersById: [String: AppUser] = [:]
+    @Published var lastMessageByChatId: [String: Message] = [:]
     @Published var selectedCategory: Category = .All
     @Published var errorMessage: String?
 
@@ -47,52 +47,61 @@ final class ChatsViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] fetchedUser in
                 self?.user = fetchedUser
-                self?.fetchChats(user: fetchedUser)
+                self?.fetchFriendChats(user: fetchedUser)
+                self?.fetchFriendUsers(user: fetchedUser)
             }
             .store(in: &cancellables)
     }
 
-    private func fetchChats(user: AppUser?) {
-        guard let userId = user?.id, let friendIds = user?.friendIds, friendIds.count > 0 else {
+    private func fetchFriendChats(user: AppUser?) {
+        guard let friendIds = user?.friendIds, let userId = user?.id else {
             return
         }
 
-        messageService.getChats(userId: userId, friendIds: friendIds)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                switch completion {
-                case .finished:
-                    break
-                case .failure(let error):
-                    self?.errorMessage = "Failed to fetch chats: \(error.localizedDescription)"
-                }
-            } receiveValue: { [weak self] fetchedChats in
-                self?.chats = fetchedChats
-                self?.fetchChatsUser(userId: userId, chats: fetchedChats)
-            }
-            .store(in: &cancellables)
-    }
-
-    private func fetchChatsUser(userId: String, chats: [Chat]) {
-        for chat in chats {
-            let otherUserIds = chat.userIds.filter { $0 != userId }
-            guard let otherUserId = otherUserIds.first else {
-                continue
-            }
-
-            databaseService
-                .fetch(path: .users, documentId: otherUserId, type: AppUser.self, source: .server)
-                .sink { [weak self] completion in
-                    switch completion {
-                    case .finished:
-                        break
-                    case .failure(let error):
-                        self?.errorMessage = error.localizedDescription
+        for friendId in friendIds {
+            messageService.getChat(userId: userId, friendId: friendId)
+                .sink { completion in
+                    if case .failure(let error) = completion {
+                        print("error: \(error.localizedDescription)")
                     }
-                } receiveValue: { [weak self] user in
-                    self?.chatSessions[chat.id] = user
+                } receiveValue: { [weak self] chat in
+                    self?.chatSessions[friendId] = chat
+                    self?.fetchLastMessage(chat: chat)
                 }
                 .store(in: &cancellables)
         }
+    }
+
+    private func fetchFriendUsers(user: AppUser?) {
+        guard let friendIds = user?.friendIds else {
+            return
+        }
+
+        for friendId in friendIds {
+            databaseService.fetch(path: .users, documentId: friendId, type: AppUser.self, source: .server)
+                .sink { completion in
+                    if case .failure(let error) = completion {
+                        print("error: \(error.localizedDescription)")
+                    }
+                } receiveValue: { [weak self] user in
+                    self?.usersById[user.id] = user
+                }
+                .store(in: &cancellables)
+        }
+    }
+
+    private func fetchLastMessage(chat: Chat?) {
+        guard let chat = chat, !chat.lastChatMessageId.isEmpty else { return }
+        messageService
+            .getMessage(chatId: chat.id, messageId: chat.lastChatMessageId)
+            .sink { completion in
+                if case .failure(let error) = completion {
+                    print("Failed to fetch last message for chatId \(chat.id): \(error.localizedDescription)")
+                }
+            } receiveValue: { [weak self] message in
+                guard let message else { return }
+                self?.lastMessageByChatId[chat.id] = message
+            }
+            .store(in: &cancellables)
     }
 }

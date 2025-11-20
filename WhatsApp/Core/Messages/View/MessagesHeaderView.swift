@@ -8,21 +8,26 @@
 import SwiftUI
 
 struct MessagesHeaderView: View {
+    @EnvironmentObject var viewModel: MessagesViewModel
+    @Environment(\.dismiss) var dismiss
+
     var body: some View {
         HStack {
             Button {
-                print("Closed")
+                dismiss()
             } label: {
                 Image("icon-chevron-lt")
                     .foregroundStyle(.colorPrimary)
             }
             .padding(.horizontal)
 
-            Circle()
+            Image("avatar-default")
+                .resizable()
                 .foregroundStyle(.black)
                 .frame(width: 36, height: 36)
+                .clipShape(Circle())
 
-            Text("Hüseyin Umut")
+            Text(viewModel.chatSession.1.username)
                 .foregroundStyle(.colorPrimary)
                 .font(.headline)
                 .fontWeight(.medium)

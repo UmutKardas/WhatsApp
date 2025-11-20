@@ -8,26 +8,32 @@
 import SwiftUI
 
 struct ChatsSegmentView: View {
-    var chatSession: (Chat, AppUser)
+    @EnvironmentObject var viewModel: ChatsViewModel
+    var chatSession: (Chat?, AppUser)
 
     var body: some View {
-        Button {} label: {
+        NavigationLink {
+            MessagesUIView(chatSession: chatSession)
+                .navigationBarBackButtonHidden(true)
+        } label: {
             VStack {
                 Divider()
                     .padding(.leading, 60)
                     .foregroundStyle(.colorSecondary)
 
                 HStack(alignment: .top) {
-                    Circle()
+                    Image("avatar-default")
+                        .resizable()
                         .frame(width: 60, height: 60)
                         .foregroundStyle(.colorPrimary)
+                        .clipShape(Circle())
 
                     VStack(alignment: .leading) {
                         Text("\(chatSession.1.username)")
                             .font(.headline)
                             .foregroundStyle(.colorPrimary)
 
-                        Text("\(chatSession.0.lastChatMessage?.message ?? "")")
+                        Text(viewModel.lastMessageByChatId[chatSession.0?.id ?? ""]?.message ?? "")
                             .font(.headline)
                             .fontWeight(.regular)
                             .foregroundStyle(.colorSecondary)
@@ -35,7 +41,7 @@ struct ChatsSegmentView: View {
 
                     Spacer()
 
-                    Text("\(chatSession.0.lastChatMessage?.timestamp.toHourMinute() ?? "00:00")")
+                    Text(viewModel.lastMessageByChatId[chatSession.0?.id ?? ""]?.timestamp.toHourMinute() ?? "")
                         .foregroundStyle(.colorSecondary)
                         .font(.headline)
                         .fontWeight(.regular)
