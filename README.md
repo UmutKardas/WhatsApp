@@ -46,23 +46,23 @@
 <table>
   <thead>
     <tr>
-      <th>Chats Screen</th>
       <th>Message Detail Screen</th>
+      <th>Chats Screen</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>
         <img
-          src="https://github.com/user-attachments/assets/9ea7b928-333e-4753-81b2-b4433ea28885"
-          alt="Chats Screen"
+          src="https://github.com/user-attachments/assets/0f9b1f2e-aece-46cf-aac0-0cc08866eb0b"
+          alt="Message Detail Screen"
           width="300"
         />
       </td>
       <td>
         <img
-          src="https://github.com/user-attachments/assets/0f9b1f2e-aece-46cf-aac0-0cc08866eb0b"
-          alt="Message Detail Screen"
+          src="https://github.com/user-attachments/assets/9ea7b928-333e-4753-81b2-b4433ea28885"
+          alt="Chats Screen"
           width="300"
         />
       </td>
